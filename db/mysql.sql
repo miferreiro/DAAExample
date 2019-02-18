@@ -15,10 +15,10 @@ CREATE TABLE `daaexample`.`users` (
 	PRIMARY KEY (`login`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `daaexample`.`pet` (
+CREATE TABLE `daaexample`.`pets` (
 	`id` int NOT NULL AUTO_INCREMENT,
 	`name` varchar(50) NOT NULL,
-	`breed` varchar(50) NOT NULL,
+	`specie` varchar(50) NOT NULL,
 	`idOwner` int NOT NULL,
 	PRIMARY KEY (`id`),
 	FOREIGN KEY (`idOwner`) REFERENCES `people`(`id`) 

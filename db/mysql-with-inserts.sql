@@ -15,14 +15,13 @@ CREATE TABLE `daaexample`.`users` (
 	PRIMARY KEY (`login`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `daaexample`.`pet` (
+CREATE TABLE `daaexample`.`pets` (
 	`id` int NOT NULL AUTO_INCREMENT,
 	`name` varchar(50) NOT NULL,
-	`breed` varchar(50) NOT NULL,
+	`specie` varchar(50) NOT NULL,
 	`idOwner` int NOT NULL,
 	PRIMARY KEY (`id`),
 	FOREIGN KEY (`idOwner`) REFERENCES `people`(`id`) 
-
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 GRANT ALL ON `daaexample`.* TO 'daa'@'localhost' IDENTIFIED BY 'daa';
@@ -42,6 +41,8 @@ VALUES ('admin', '713bfda78870bf9d1b261f565286f85e97ee614efe5f0faf7c34e7ca4f65ba
 INSERT INTO `daaexample`.`users` (`login`,`password`,`role`)
 VALUES ('normal', '7bf24d6ca2242430343ab7e3efb89559a47784eea1123be989c1b2fb2ef66e83','USER');
 
-INSERT INTO `daaexample`.`pet` (`id`,`name`,`breed`,`idOwner`) VALUES (0,'Rex','Pastor Aleman',1);
-INSERT INTO `daaexample`.`pet` (`id`,`name`,`breed`,`idOwner`) VALUES (0,'Idefix','Terrier',2);
-INSERT INTO `daaexample`.`pet` (`id`,`name`,`breed`,`idOwner`) VALUES (0,'Snoopy','Beagle',3);
+INSERT INTO `daaexample`.`pets` (`id`,`name`,`specie`,`idOwner`) VALUES (0,'Rex','Dog',1);
+INSERT INTO `daaexample`.`pets` (`id`,`name`,`specie`,`idOwner`) VALUES (0,'Doraemon','Cat',2);
+INSERT INTO `daaexample`.`pets` (`id`,`name`,`specie`,`idOwner`) VALUES (0,'Yogui','Bear',3);
+INSERT INTO `daaexample`.`pets` (`id`,`name`,`specie`,`idOwner`) VALUES (0,'Prueba1','pet',4);
+INSERT INTO `daaexample`.`pets` (`id`,`name`,`specie`,`idOwner`) VALUES (0,'Prueba2','pet',5);
