@@ -12,11 +12,12 @@ var PeopleView = (function() {
 	function PeopleView(peopleDao, formContainerId, listContainerId) {
 		dao = peopleDao;
 		self = this;
-		
+
 		insertPeopleForm($('#' + formContainerId));
 		insertPeopleList($('#' + listContainerId));
 		
 		this.init = function() {
+						
 			dao.listPeople(function(people) {
 				$.each(people, function(key, person) {
 					appendToTable(person);
@@ -73,7 +74,7 @@ var PeopleView = (function() {
 					'name': row.find('td.name').text(),
 					'surname': row.find('td.surname').text()
 				};
-			} else {
+			} else {	
 				return undefined;
 			}
 		};
@@ -103,6 +104,19 @@ var PeopleView = (function() {
 			}
 		};
 
+		this.listPets = function(id) {
+			$('.containerGeneric').empty();
+			$('.containerGeneric').append('<div id="pets-container" style="display: show;">\
+											<h1 class="display-5 mt-3 mb-3">Mascotas</h1>\
+											</div>');
+
+			var viewPets = new PetsView(new PetsDAO(),
+					'pets-container', 'pets-container',
+			);
+			viewPets.initPeople(id);	
+			
+		};
+		
 		this.isEditing = function() {
 			return $(formQuery + ' input[name="id"]').val() != "";
 		};
@@ -123,19 +137,19 @@ var PeopleView = (function() {
 	};
 	
 	var insertPeopleList = function(parent) {
-		parent.append(
-			'<table id="' + listId + '" class="table">\
-				<thead>\
-					<tr class="row">\
-						<th class="col-sm-4">Nombre</th>\
-						<th class="col-sm-5">Apellido</th>\
-						<th class="col-sm-3">&nbsp;</th>\
-					</tr>\
-				</thead>\
-				<tbody>\
-				</tbody>\
-			</table>'
-		);
+			parent.append(
+				'<table id="' + listId + '" class="table">\
+					<thead>\
+						<tr class="row">\
+							<th class="col-sm-2">Nombre</th>\
+							<th class="col-sm-3">Apellido</th>\
+							<th class="col-sm-5">&nbsp;</th>\
+						</tr>\
+					</thead>\
+					<tbody>\
+					</tbody>\
+				</table>'
+			);
 	};
 
 	var insertPeopleForm = function(parent) {
@@ -160,11 +174,12 @@ var PeopleView = (function() {
 
 	var createPersonRow = function(person) {
 		return '<tr id="person-'+ person.id +'" class="row">\
-			<td class="name col-sm-4">' + person.name + '</td>\
-			<td class="surname col-sm-5">' + person.surname + '</td>\
-			<td class="col-sm-3">\
+			<td class="name col-sm-2">' + person.name + '</td>\
+			<td class="surname col-sm-4">' + person.surname + '</td>\
+			<td class="col-sm-5">\
 				<a class="edit btn btn-primary" href="#">Editar</a>\
 				<a class="delete btn btn-warning" href="#">Eliminar</a>\
+				<a class="pets btn btn-info" href="#">Mascotas</a>\
 			</td>\
 		</tr>';
 	};
@@ -180,6 +195,10 @@ var PeopleView = (function() {
 		
 		$('#person-' + person.id + ' a.delete').click(function() {
 			self.deletePerson(person.id);
+		});
+		
+		$('#person-' + person.id + ' a.pets').click(function() {
+			self.listPets(person.id);
 		});
 	};
 

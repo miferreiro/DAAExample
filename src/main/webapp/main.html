@@ -15,21 +15,25 @@
 				<a href="#" class="navbar-brand d-flex align-items-center">
 					<strong>DAA	Example</strong>
 				</a>
+				<button id="people" class="btn btn-dark">Personas</button>
+				<button id="pets" class="btn btn-dark">Mascotas</button>
 				<button id="logout" class="btn btn-dark">Cerrar sesión</button>
 			</div>
 		</div>
 	</header>
 
 	<div class="container">
-		<div id="people-container">
-			<h1 class="display-5 mt-3 mb-3">Personas</h1>
+		<div class="containerGeneric">
+			
 		</div>
 	</div>
-	
+
 	<script type="text/javascript"
 		src="http://code.jquery.com/jquery-2.2.4.min.js"></script>
 	<script type="text/javascript" src="js/dao/people.js"></script>
+	<script type="text/javascript" src="js/dao/pets.js"></script>
 	<script type="text/javascript" src="js/view/people.js"></script>
+	<script type="text/javascript" src="js/view/pets.js"></script>
 	<script type="text/javascript" src="js/login.js"></script>
 	<script type="text/javascript">
 	$(document).ready(
@@ -39,11 +43,32 @@
 				doLogout();
 		    });
 
-		    var view = new PeopleView(new PeopleDAO(),
-		    	'people-container', 'people-container'
-	    	);
-
-		    view.init();
+			$('#people').click(function(event) {		
+				
+				$('.containerGeneric').empty();
+				$('.containerGeneric').append('<div id="people-container" style="display: show;">\
+												<h1 class="display-5 mt-3 mb-3">Personas</h1>\
+												</div>');
+				
+				var viewPeople = new PeopleView(new PeopleDAO(),
+					'people-container', 'people-container'
+				);
+				viewPeople.init();	
+		    });    
+			
+			$('#pets').click(function(event) {
+			
+				$('.containerGeneric').empty();
+				$('.containerGeneric').append('<div id="pets-container" style="display: show;">\
+												<h1 class="display-5 mt-3 mb-3">Mascotas</h1>\
+												</div>');
+				
+				var viewPets = new PetsView(new PetsDAO(),
+						'pets-container', 'pets-container',
+				);
+				viewPets.init();					
+		    });    
+			
 		});
     </script>
 </body>
