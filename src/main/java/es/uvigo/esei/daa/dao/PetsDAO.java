@@ -18,8 +18,8 @@ import es.uvigo.esei.daa.entities.Pet;
  * 
  * @author Miguel Ferreiro Diaz
  */
-public class PetDAO extends DAO {
-	private final static Logger LOG = Logger.getLogger(PetDAO.class.getName());
+public class PetsDAO extends DAO {
+	private final static Logger LOG = Logger.getLogger(PetsDAO.class.getName());
 
 	/**
 	 * Returns a person stored persisted in the system.
@@ -95,11 +95,7 @@ public class PetDAO extends DAO {
 		if (name == null || specie == null) {
 			throw new IllegalArgumentException("name and specie can't be null " + specie);
 		}
-		
-		if ( idOwner <= 0) {
-			throw new IllegalArgumentException("idOwner can't be negative");
-		}
-		
+				
 		try (Connection conn = this.getConnection()) {
 			final String query = "INSERT INTO pets VALUES(null, ?, ?,?)";
 			
@@ -198,8 +194,13 @@ public class PetDAO extends DAO {
 	 * @throws IllegalArgumentException if the provided id does not corresponds
 	 * with any persisted person.
 	 */
-	public List<Pet> getPets(int id)
+	public List<Pet> getPets(int idOwner)
 	throws DAOException, IllegalArgumentException {
+		
+		if ( idOwner <= 0) {
+			throw new IllegalArgumentException("idOwner can't be negative");
+		}
+		
 		try (final Connection conn = this.getConnection()) {
 			final String query = "SELECT T.id, T.name, T.specie, T.idOwner "
 							   + "FROM people P, pets T "
@@ -207,8 +208,8 @@ public class PetDAO extends DAO {
 			
 			try (final PreparedStatement statement = conn.prepareStatement(query)) {
 				
-				statement.setInt(1, id);
-				
+				statement.setInt(1, idOwner);
+							
 				try (final ResultSet result = statement.executeQuery()) {
 					
 					final List<Pet> pets = new LinkedList<>();
