@@ -14,4 +14,16 @@
 
 	<users login="admin" password="713bfda78870bf9d1b261f565286f85e97ee614efe5f0faf7c34e7ca4f65baca" role="ADMIN"/>
 	<users login="normal" password="7bf24d6ca2242430343ab7e3efb89559a47784eea1123be989c1b2fb2ef66e83" role="USER" />
+	
+	<pets id="1" name="Rex" specie="Perro" idOwner="1"/>
+	<pets id="2" name="Snoopy" specie="Perro" idOwner="1"/>
+	<pets id="3" name="Asno" specie="Asno" idOwner="2"/>
+	<pets id="4" name="Bugs Bunny" specie="Conejo" idOwner="3"/>
+	<pets id="5" name="Scooby Doo" specie="Perro" idOwner="4"/>
+	<pets id="6" name="Jerry" specie="Ratón" idOwner="1"/>
+	<pets id="7" name="Mickey Mouse" specie="Ratón" idOwner="1"/>
+	<pets id="8" name="Garfield" specie="Gato" idOwner="6"/>
+	<pets id="9" name="Piolín" specie="Canario" idOwner="6"/>
+	<pets id="10" name="Nemo" specie="Pez" idOwner="7"/>
+	
 </dataset>
