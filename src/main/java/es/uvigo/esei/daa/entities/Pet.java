@@ -96,10 +96,7 @@ public class Pet {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((specie == null) ? 0 : specie.hashCode());
 		result = prime * result + id;
-		result = prime * result + idOwner;
-		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		return result;
 	}
 
@@ -109,22 +106,10 @@ public class Pet {
 			return true;
 		if (obj == null)
 			return false;
-		if (getClass() != obj.getClass())
+		if (!(obj instanceof Pet))
 			return false;
 		Pet other = (Pet) obj;
-		if (specie == null) {
-			if (other.specie != null)
-				return false;
-		} else if (!specie.equals(other.specie))
-			return false;
-		if (id != other.id)
-			return false;
-		if (idOwner != other.idOwner)
-			return false;
-		if (name == null) {
-			if (other.name != null)
-				return false;
-		} else if (!name.equals(other.name))
+		if(id != other.id)
 			return false;
 		return true;
 	}
