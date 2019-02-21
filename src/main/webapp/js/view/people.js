@@ -101,6 +101,7 @@ var PeopleView = (function() {
 				dao.deletePerson(id,
 					function() {
 						$('tr#person-' + id).remove();
+						self.resetForm();
 					},
 					showErrorMessage
 				);

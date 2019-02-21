@@ -92,6 +92,9 @@ var PetsView = (function() {
 						function(pet) {
 							appendToTable(pet);
 							self.resetForm();
+							if(pet.idOwner != id) {
+								$('tr#pet-' + pet.id).remove();
+							}
 						},
 						showErrorMessage,
 						self.enableForm
@@ -150,6 +153,7 @@ var PetsView = (function() {
 				dao.deletePet(id,
 					function() {
 						$('tr#pet-' + id).remove();
+						self.resetForm();
 					},
 					showErrorMessage
 				);
