@@ -212,8 +212,8 @@ public class PeopleResourceTest extends JerseyTest {
 		final Form form = new Form();
 		form.param("name", newName());
 		
-		final Response response = target("people/" + existentId())
-			.request(MediaType.APPLICATION_JSON_TYPE)
+		final Response response = target("people/" + existentId()).request(MediaType.APPLICATION_JSON_TYPE)
+				.header("Authorization", "Basic " + userToken(adminLogin()))
 			.put(entity(form, MediaType.APPLICATION_FORM_URLENCODED_TYPE));
 
 		assertThat(response, hasBadRequestStatus());

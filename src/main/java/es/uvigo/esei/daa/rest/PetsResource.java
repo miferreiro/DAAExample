@@ -16,7 +16,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import es.uvigo.esei.daa.dao.DAOException;
-import es.uvigo.esei.daa.dao.PetDAO;
+import es.uvigo.esei.daa.dao.PetsDAO;
 import es.uvigo.esei.daa.entities.Person;
 import es.uvigo.esei.daa.entities.Pet;
 
@@ -30,17 +30,17 @@ import es.uvigo.esei.daa.entities.Pet;
 public class PetsResource {
 	private final static Logger LOG = Logger.getLogger(PetsResource.class.getName());
 
-	private final PetDAO dao;
+	private final PetsDAO dao;
 
 	/**
 	 * Constructs a new instance of {@link PetResource}.
 	 */
 	public PetsResource() {
-		this(new PetDAO());
+		this(new PetsDAO());
 	}
 	
 	// Needed for testing purposes
-	PetsResource(PetDAO dao) {
+	PetsResource(PetsDAO dao) {
 		this.dao = dao;
 	}
 	
@@ -188,10 +188,7 @@ public class PetsResource {
 			.build();
 		}
 	}	
-	
-	
-	
-	
+		
 	/**
 	 * Deletes a pet from the system.
 	 * 
