@@ -18,25 +18,33 @@ var PetsView = (function() {
 		
 		this.init = function() {
 			$('#' + formContainerId).before('<h1 class="display-5 mt-3 mb-3" id="pets-tittle">Mascotas</h1>');
+			var daoPeople = new PeopleDAO();
 			dao.listPets(function(pets) {
-				$.each(pets, function(key, pet) {
-					
-					var daoPeople = new PeopleDAO();
+				$.each(pets, function(key, pet) {							
 					
 					daoPeople.getPeople(pet.idOwner,
 					 				    function(person) {
-												appendToTable(pet, person);
+											appendToTable(pet, person);
 										},
 										showErrorMessage
 										);
 				});
 			});
 			
+			daoPeople.listPeople(function(people) {
+				$.each(people, function(key, person) {
+					appendToFormSelect(person);					  												 
+				});
+		 	},
+			function() {
+			    	alert('No ha sido posible acceder al listado de personas.');
+			});
+			
 			// La acción por defecto de enviar formulario (submit) se sobreescribe
 			// para que el envío sea a través de AJAX
 			$(formQuery).submit(function(event) {	
 				var pet = self.getPetInForm();
-						
+				
 				if (self.isEditing()) {		
 					dao.modifyPet(pet,	
 						function(pet) {
@@ -52,8 +60,14 @@ var PetsView = (function() {
 				} else {
 					dao.addPet(pet,
 						function(pet) {
-							appendToTable(pet);
-							self.resetForm();
+						
+							daoPeople.getPeople(pet.idOwner,
+					 				    function(person) {
+											appendToTable(pet, person);
+											self.resetForm();
+										},
+										showErrorMessage
+										);
 						},
 						showErrorMessage,
 						self.enableForm
@@ -71,7 +85,7 @@ var PetsView = (function() {
 			$('#' + formContainerId).before('<h1 class="display-5 mt-3 mb-3" id="pets-tittle">Mascotas de ' + person.name + ' ' + person.surname + '</h1>');
 			
 			$('#person-name-th').remove();
-			$('#person-surname-th').remove();
+			$('#person-surname-th').remove();				
 			
 			dao.listPeoplePets(id,
 							   function(pets) {
@@ -79,6 +93,19 @@ var PetsView = (function() {
 									appendToTablePetsPerson(pet);
 								});
 			});
+			
+			var daoPeople = new PeopleDAO();
+			daoPeople.listPeople(function(people) {
+				$.each(people, function(key, personSelect) {
+					appendToFormSelect(personSelect);					  												 
+				});
+				$('#idOwner-select option[value="' + person.id + '"]').attr("selected",true);
+
+		 	},
+			function() {
+			    	alert('No ha sido posible acceder al listado de personas.');
+			});
+			
 			
 			// La acción por defecto de enviar formulario (submit) se sobreescribe
 			// para que el envío sea a través de AJAX
@@ -103,7 +130,7 @@ var PetsView = (function() {
 				} else {
 					dao.addPet(pet,
 						function(pet) {
-							appendToTable(pet);
+							appendToTablePetsPerson(pet);
 							self.resetForm();
 							if(pet.idOwner != id) {
 								$('tr#pet-' + pet.id).remove();
@@ -119,15 +146,14 @@ var PetsView = (function() {
 			
 			$('#btnClearPet').click(this.resetForm);
 		};
-		
-		
+				
 		this.getPetInForm = function() {
 			var form = $(formQuery);
 			return {
 				'id': form.find('input[name="idPet"]').val(),
 				'name': form.find('input[name="namePet"]').val(),
 				'specie': form.find('input[name="specie"]').val(),
-				'idOwner': form.find('input[name="idOwner"]').val()
+				'idOwner': form.find('select[name="idOwner"]').val()
 			};
 		};
 
@@ -155,7 +181,7 @@ var PetsView = (function() {
 				form.find('input[name="idPet"]').val(id);
 				form.find('input[name="namePet"]').val(row.find('td.namePet').text());
 				form.find('input[name="specie"]').val(row.find('td.specie').text());
-				form.find('input[name="idOwner"]').val(row.find('td.idOwner').text());
+				form.find('select[name="idOwner"]').val(row.find('td.idOwner').text());
 				
 				$('input#btnSubmitPet').val('Modificar');
 			}
@@ -211,8 +237,8 @@ var PetsView = (function() {
 	};
 
 	var insertPetsForm = function(parent) {
-		parent.append(
-			'<form id="' + formId + '" class="mb-5 mb-11">\
+				
+		var formPets ='<form id="' + formId + '" class="mb-5 mb-11">\
 				<input name="idPet" type="hidden" value=""/>\
 				<div class="row">\
 					<div class="col-sm-3">\
@@ -222,7 +248,8 @@ var PetsView = (function() {
 						<input name="specie" type="text" value="" placeholder="Especie" class="form-control" required/>\
 					</div>\
 					<div class="col-sm-3">\
-						<input name="idOwner" type="number" value="" placeholder="Propietario" class="form-control" required/>\
+						<select id="idOwner-select" name="idOwner" value="" class="form-control" required/>\
+						<option value=""></option>\
 					</div>\
 					<div class="col-sm-3">\
 						<input id="btnSubmitPet" type="submit" value="Crear" class="btn btn-primary" />\
@@ -230,7 +257,9 @@ var PetsView = (function() {
 					</div>\
 				</div>\
 			</form>'
-		);
+		
+			
+		parent.append(formPets)			
 	};
 
 	var createPetRow = function(pet, person) {
@@ -260,7 +289,6 @@ var PetsView = (function() {
 			</td>\
 		</tr>';
 	};
-
 	
 	var showErrorMessage = function(jqxhr, textStatus, error) {
 		alert(textStatus + ": " + error);
@@ -287,6 +315,14 @@ var PetsView = (function() {
 			.append(createPetRowPetsPerson(pet));
 		addRowListeners(pet);
 	};
+
+	var appendToFormSelect = function(person) {
+		$('#idOwner-select').append(createPersonOption(person))		
+	}
+	
+	var createPersonOption = function(person) {		
+		return '<option value="' + person.id + '">'+ person.name + ' ' + person.surname + '</option>';	
+	}
 	
 	return PetsView;
 })();
