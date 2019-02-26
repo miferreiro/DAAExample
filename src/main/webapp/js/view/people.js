@@ -151,7 +151,7 @@ var PeopleView = (function() {
 					<thead>\
 						<tr class="row">\
 							<th class="col-sm-2">Nombre</th>\
-							<th class="col-sm-3">Apellido</th>\
+							<th class="col-sm-4">Apellido</th>\
 							<th class="col-sm-5">&nbsp;</th>\
 						</tr>\
 					</thead>\

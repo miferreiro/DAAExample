@@ -68,12 +68,15 @@ var PetsView = (function() {
 		
 		this.initPetsPerson = function(id, person) {
 			
-			$('#' + formContainerId).before('<h1 class="display-5 mt-3 mb-3" id="pets-tittle">Mascotas de ' + person.name + '</h1>');
+			$('#' + formContainerId).before('<h1 class="display-5 mt-3 mb-3" id="pets-tittle">Mascotas de ' + person.name + ' ' + person.surname + '</h1>');
+			
+			$('#person-name-th').remove();
+			$('#person-surname-th').remove();
 			
 			dao.listPeoplePets(id,
 							   function(pets) {
 								$.each(pets, function(key, pet) {
-									appendToTable(pet, person);
+									appendToTablePetsPerson(pet);
 								});
 			});
 			
@@ -196,8 +199,8 @@ var PetsView = (function() {
 					<tr class="row">\
 						<th class="col-sm-2" style="text-align:center;">Nombre</th>\
 						<th class="col-sm-2" style="text-align:center;">Especie</th>\
-						<th class="col-sm-2" style="text-align:center;">Nombre Propietario</th>\
-						<th class="col-sm-2" style="text-align:center;">Apellido Propietario</th>\
+						<th class="col-sm-2" style="text-align:center;" id="person-name-th">Nombre Propietario</th>\
+						<th class="col-sm-2" style="text-align:center;" id="person-surname-th">Apellido Propietario</th>\
 						<th class="col-sm-3">&nbsp;</th>\
 					</tr>\
 				</thead>\
@@ -245,6 +248,20 @@ var PetsView = (function() {
 		</tr>';
 	};
 
+	var createPetRowPetsPerson = function(pet) {
+				
+		return '<tr id="pet-'+ pet.id +'" class="row">\
+			<td class="namePet col-sm-2" style="text-align:center;">' + pet.name + '</td>\
+			<td class="specie col-sm-2" style="text-align:center;">' + pet.specie + '</td>\
+			<td style="display:none;" class="idOwner col-sm-3" style="text-align:center;">' + pet.idOwner + '</td>\
+			<td class="col-sm-3">\
+				<a class="edit btn btn-primary" href="#">Editar</a>\
+				<a class="delete btn btn-warning" href="#">Eliminar</a>\
+			</td>\
+		</tr>';
+	};
+
+	
 	var showErrorMessage = function(jqxhr, textStatus, error) {
 		alert(textStatus + ": " + error);
 	};
@@ -262,6 +279,12 @@ var PetsView = (function() {
 	var appendToTable = function(pet, person) {
 		$(listQuery + ' > tbody:last')
 			.append(createPetRow(pet, person));
+		addRowListeners(pet);
+	};
+	
+	var appendToTablePetsPerson = function(pet) {
+		$(listQuery + ' > tbody:last')
+			.append(createPetRowPetsPerson(pet));
 		addRowListeners(pet);
 	};
 	
