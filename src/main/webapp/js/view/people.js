@@ -103,7 +103,9 @@ var PeopleView = (function() {
 						$('tr#person-' + id).remove();
 						self.resetForm();
 					},
-					showErrorMessage
+					function() {
+							alert('No ha sido posible eliminar a la persona seleccionada.');
+					}
 				);
 			}
 		};
