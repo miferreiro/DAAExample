@@ -17,10 +17,18 @@ var PetsView = (function() {
 		insertPetsList($('#' + listContainerId));
 		
 		this.init = function() {
-			
+			$('#' + formContainerId).before('<h1 class="display-5 mt-3 mb-3" id="pets-tittle">Mascotas</h1>');
 			dao.listPets(function(pets) {
 				$.each(pets, function(key, pet) {
-					appendToTable(pet);
+					
+					var daoPeople = new PeopleDAO();
+					
+					daoPeople.getPeople(pet.idOwner,
+					 				    function(person) {
+												appendToTable(pet, person);
+										},
+										showErrorMessage
+										);
 				});
 			});
 			
@@ -58,12 +66,14 @@ var PetsView = (function() {
 			$('#btnClearPet').click(this.resetForm);
 		};
 		
-		this.initPeople = function(id) {
+		this.initPetsPerson = function(id, person) {
+			
+			$('#' + formContainerId).before('<h1 class="display-5 mt-3 mb-3" id="pets-tittle">Mascotas de ' + person.name + '</h1>');
 			
 			dao.listPeoplePets(id,
 							   function(pets) {
 								$.each(pets, function(key, pet) {
-									appendToTable(pet);
+									appendToTable(pet, person);
 								});
 			});
 			
@@ -184,9 +194,10 @@ var PetsView = (function() {
 			'<table id="' + listId + '" class="table">\
 				<thead>\
 					<tr class="row">\
-						<th class="col-sm-3">Nombre</th>\
-						<th class="col-sm-3">Especie</th>\
-						<th class="col-sm-3">Propietario</th>\
+						<th class="col-sm-2" style="text-align:center;">Nombre</th>\
+						<th class="col-sm-2" style="text-align:center;">Especie</th>\
+						<th class="col-sm-2" style="text-align:center;">Nombre Propietario</th>\
+						<th class="col-sm-2" style="text-align:center;">Apellido Propietario</th>\
 						<th class="col-sm-3">&nbsp;</th>\
 					</tr>\
 				</thead>\
@@ -219,11 +230,14 @@ var PetsView = (function() {
 		);
 	};
 
-	var createPetRow = function(pet) {
+	var createPetRow = function(pet, person) {
+				
 		return '<tr id="pet-'+ pet.id +'" class="row">\
-			<td class="namePet col-sm-3">' + pet.name + '</td>\
-			<td class="specie col-sm-3">' + pet.specie + '</td>\
-			<td class="idOwner col-sm-3">' + pet.idOwner + '</td>\
+			<td class="namePet col-sm-2" style="text-align:center;">' + pet.name + '</td>\
+			<td class="specie col-sm-2" style="text-align:center;">' + pet.specie + '</td>\
+			<td style="display:none;" class="idOwner col-sm-3" style="text-align:center;">' + pet.idOwner + '</td>\
+			<td class="person-name col-sm-2" style="text-align:center;">' + person.name + '</td>\
+			<td class="person-surname col-sm-2" style="text-align:center;">' + person.surname + '</td>\
 			<td class="col-sm-3">\
 				<a class="edit btn btn-primary" href="#">Editar</a>\
 				<a class="delete btn btn-warning" href="#">Eliminar</a>\
@@ -245,9 +259,9 @@ var PetsView = (function() {
 		});
 	};
 
-	var appendToTable = function(pet) {
+	var appendToTable = function(pet, person) {
 		$(listQuery + ' > tbody:last')
-			.append(createPetRow(pet));
+			.append(createPetRow(pet, person));
 		addRowListeners(pet);
 	};
 	

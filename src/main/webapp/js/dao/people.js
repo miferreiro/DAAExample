@@ -16,6 +16,14 @@ var PeopleDAO = (function() {
     };
 
     function PeopleDAO() {
+		
+	this.getPeople = function(id,done, fail, always) {
+	    requestByAjax({
+		url : resourcePath + id,
+		type : 'GET'
+	    }, done, fail, always);
+	};
+		
 	this.listPeople = function(done, fail, always) {
 	    requestByAjax({
 		url : resourcePath,

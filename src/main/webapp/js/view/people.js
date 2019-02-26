@@ -24,7 +24,7 @@ var PeopleView = (function() {
 				});
 			},
 			function() {
-			    	alert('No has sido posible acceder al listado de personas.');
+			    	alert('No ha sido posible acceder al listado de personas.');
 			});
 			
 			// La acción por defecto de enviar formulario (submit) se sobreescribe
@@ -110,15 +110,18 @@ var PeopleView = (function() {
 
 		this.listPets = function(id) {
 			$('.containerGeneric').empty();
-			$('.containerGeneric').append('<div id="pets-container" style="display: show;">\
-											<h1 class="display-5 mt-3 mb-3">Mascotas</h1>\
-											</div>');
+			$('.containerGeneric').append('<div id="pets-container" style="display: show;"></div>');
 
 			var viewPets = new PetsView(new PetsDAO(),
 					'pets-container', 'pets-container',
-			);
-			viewPets.initPeople(id);	
+			);		
 			
+			 dao.getPeople(id,
+						  function(person) {
+							viewPets.initPetsPerson(id, person);	
+						  },
+						  showErrorMessage
+						);
 		};
 		
 		this.isEditing = function() {
