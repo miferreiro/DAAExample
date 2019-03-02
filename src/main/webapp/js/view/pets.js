@@ -86,6 +86,10 @@ var PetsView = (function() {
 			
 			$('#person-name-th').remove();
 			$('#person-surname-th').remove();				
+			$('#pet-name-th').removeClass("col-sm-2");
+			$('#pet-name-th').addClass("col-sm-4");			
+			$('#pet-specie-th').removeClass("col-sm-2");
+			$('#pet-specie-th').addClass("col-sm-4");
 			
 			dao.listPeoplePets(id,
 							   function(pets) {
@@ -223,11 +227,11 @@ var PetsView = (function() {
 			'<table id="' + listId + '" class="table">\
 				<thead>\
 					<tr class="row">\
-						<th class="col-sm-2" style="text-align:center;">Nombre</th>\
-						<th class="col-sm-2" style="text-align:center;">Especie</th>\
+						<th class="col-sm-2" style="text-align:center;" id="pet-name-th">Nombre</th>\
+						<th class="col-sm-2" style="text-align:center;" id="pet-specie-th">Especie</th>\
 						<th class="col-sm-2" style="text-align:center;" id="person-name-th">Nombre Propietario</th>\
 						<th class="col-sm-2" style="text-align:center;" id="person-surname-th">Apellido Propietario</th>\
-						<th class="col-sm-3">&nbsp;</th>\
+						<th class="col-sm-3" id="buttons">&nbsp;</th>\
 					</tr>\
 				</thead>\
 				<tbody>\
@@ -270,7 +274,7 @@ var PetsView = (function() {
 			<td style="display:none;" class="idOwner col-sm-3" style="text-align:center;">' + pet.idOwner + '</td>\
 			<td class="person-name col-sm-2" style="text-align:center;">' + person.name + '</td>\
 			<td class="person-surname col-sm-2" style="text-align:center;">' + person.surname + '</td>\
-			<td class="col-sm-3">\
+			<td class="col-sm-3" style="text-align:center;">\
 				<a class="edit btn btn-primary" href="#">Editar</a>\
 				<a class="delete btn btn-warning" href="#">Eliminar</a>\
 			</td>\
@@ -280,10 +284,10 @@ var PetsView = (function() {
 	var createPetRowPetsPerson = function(pet) {
 				
 		return '<tr id="pet-'+ pet.id +'" class="row">\
-			<td class="namePet col-sm-2" style="text-align:center;">' + pet.name + '</td>\
-			<td class="specie col-sm-2" style="text-align:center;">' + pet.specie + '</td>\
+			<td class="namePet col-sm-4" style="text-align:center;">' + pet.name + '</td>\
+			<td class="specie col-sm-4" style="text-align:center;">' + pet.specie + '</td>\
 			<td style="display:none;" class="idOwner col-sm-3" style="text-align:center;">' + pet.idOwner + '</td>\
-			<td class="col-sm-3">\
+			<td class="col-sm-3" style="text-align:center;">\
 				<a class="edit btn btn-primary" href="#">Editar</a>\
 				<a class="delete btn btn-warning" href="#">Eliminar</a>\
 			</td>\
