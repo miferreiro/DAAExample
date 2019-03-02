@@ -92,8 +92,16 @@ public class PetsDAO extends DAO {
 	 */
 	public Pet add(String name, String specie, int idOwner)
 	throws DAOException, IllegalArgumentException {
-		if (name == null || specie == null) {
-			throw new IllegalArgumentException("name and specie can't be null " + specie);
+		if (name == null) {
+			throw new IllegalArgumentException("name can't be null " + name);
+		}
+		
+		if ( specie == null) {
+			throw new IllegalArgumentException("specie can't be null " + specie);
+		}
+		
+		if(idOwner < 0) {
+			throw new IllegalArgumentException("idOwner can't be negative " + specie);
 		}
 				
 		try (Connection conn = this.getConnection()) {
@@ -197,7 +205,7 @@ public class PetsDAO extends DAO {
 	public List<Pet> getPets(int idOwner)
 	throws DAOException, IllegalArgumentException {
 		
-		if ( idOwner <= 0) {
+		if ( idOwner < 0) {
 			throw new IllegalArgumentException("idOwner can't be negative");
 		}
 		

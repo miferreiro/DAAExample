@@ -72,6 +72,10 @@ public class PetsDataset {
 		return 1234;
 	}
 	
+	public static int negativeIdOwner() {
+		return -1;
+	}
+	
 	public static Pet existentPet() {
 		return pet(existentId());
 	}

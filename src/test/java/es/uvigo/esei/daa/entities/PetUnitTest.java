@@ -36,10 +36,10 @@ public class PetUnitTest {
 		new Pet(1, "Rex", null, 1);
 	}
 	
-//	@Test(expected = Error.class)
-//	public void testPetIntStringStringIntNullidOwner() {
-//		new Pet(1, "Rex", "Dog", null);
-//	}
+	@Test(expected = IllegalArgumentException.class)
+	public void testPetIntStringStringIntNegativeIdOwner() {
+		new Pet(1, "Rex", "Dog", -1);
+	}
 	
 	@Test
 	public void testSetName() {
@@ -100,12 +100,12 @@ public class PetUnitTest {
 		assertThat(pet.getIdOwner(), is(equalTo(1)));
 	}
 	
-//	@Test(expected = Error.class)
-//	public void testSetNullIdOwner() {
-//		final Pet pet = new Pet(1, "Rex", "Dog", null);
-//		
-//		pet.setSpecie(null);
-//	}	
+	@Test(expected = IllegalArgumentException.class)
+	public void testSetNegativeIdOwner() {
+		final Pet pet = new Pet(1, "Rex", "Dog", 1);
+		
+		pet.setIdOwner(-1);
+	}	
 	
 	
 	@Test

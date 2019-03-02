@@ -2,6 +2,7 @@ package es.uvigo.esei.daa.entities;
 
 import static java.util.Objects.requireNonNull;
 
+
 /**
  * An entity that represents a pet.
  * 
@@ -89,7 +90,10 @@ public class Pet {
 	 * @throws NullPointerException if the {@code idOwner} is {@code null}.
 	 */
 	public void setIdOwner(int idOwner) {
-		this.idOwner = requireNonNull(idOwner, "idOwner can't be null");
+		if(idOwner < 1) {
+			throw new IllegalArgumentException(idOwner + " can't be less than 0");
+		}
+		this.idOwner = idOwner;
 	}
 
 	@Override

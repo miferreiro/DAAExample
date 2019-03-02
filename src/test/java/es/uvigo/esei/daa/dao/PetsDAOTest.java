@@ -9,6 +9,7 @@ import static es.uvigo.esei.daa.dataset.PetsDataset.newSpecie;
 import static es.uvigo.esei.daa.dataset.PetsDataset.newIdOwner;
 import static es.uvigo.esei.daa.dataset.PetsDataset.nonExistentId;
 import static es.uvigo.esei.daa.dataset.PetsDataset.nonExistentIdOwner;
+import static es.uvigo.esei.daa.dataset.PetsDataset.negativeIdOwner;
 import static es.uvigo.esei.daa.dataset.PetsDataset.nonExistentPet;
 import static es.uvigo.esei.daa.dataset.PetsDataset.pets;
 import static es.uvigo.esei.daa.dataset.PetsDataset.petsOwner;
@@ -72,6 +73,11 @@ public class PetsDAOTest {
 		assertThat(this.dao.getPets(existentIdOwner()), containsPetsInAnyOrder(petsOwner(existentIdOwner())));
 	}
 	
+	@Test(expected = IllegalArgumentException.class)
+	public void testGetPetsNegativeIdOwner() throws DAOException {
+		this.dao.getPets(negativeIdOwner());
+	}
+	
 	@Test
 	public void testGet() throws DAOException {
 		final Pet pet = this.dao.get(existentId());
@@ -83,7 +89,7 @@ public class PetsDAOTest {
 	public void testGetNonExistentId() throws DAOException {
 		this.dao.get(nonExistentId());
 	}
-
+	
 	@Test
 	@ExpectedDatabase("/datasets/dataset-delete-pets.xml")
 	public void testDelete() throws DAOException {
@@ -140,7 +146,12 @@ public class PetsDAOTest {
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void testAddNullSurname() throws DAOException {
+	public void testAddNullSpecie() throws DAOException {
 		this.dao.add(newName(), null, newIdOwner());
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void testAddNegativeIdOwner() throws DAOException {
+		this.dao.add(newName(), newSpecie(),negativeIdOwner());
 	}
 }
