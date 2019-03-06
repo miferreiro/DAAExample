@@ -47,9 +47,9 @@ public class PetsResource {
 	/**
 	 * Returns a person with the provided identifier.
 	 * 
-	 * @param id the identifier of the person to retrieve.
-	 * @return a 200 OK response with a person that has the provided identifier.
-	 * If the identifier does not corresponds with any user, a 400 Bad Request
+	 * @param id the identifier of the pet to retrieve.
+	 * @return a 200 OK response with a pet that has the provided identifier.
+	 * If the identifier does not corresponds with any pet, a 400 Bad Request
 	 * response with an error message will be returned. If an error happens
 	 * while retrieving the list, a 500 Internal Server Error response with an
 	 * error message will be returned.
@@ -64,7 +64,7 @@ public class PetsResource {
 			
 			return Response.ok(pet).build();
 		} catch (IllegalArgumentException iae) {
-			LOG.log(Level.FINE, "Invalid person id in get method", iae);
+			LOG.log(Level.FINE, "Invalid pet id in get method", iae);
 			
 			return Response.status(Response.Status.BAD_REQUEST)
 				.entity(iae.getMessage())
@@ -145,10 +145,11 @@ public class PetsResource {
 	 * Modifies the data of a pet.
 	 * 
 	 * @param id identifier of the person to modify.
-	 * @param name the new name of the person.
-	 * @param surname the new surname of the person.
-	 * @return a 200 OK response with a person that has been modified. If the
-	 * identifier does not corresponds with any user or the name or surname are
+	 * @param name the new name of the pet.
+	 * @param specie the new specie of the pet.
+	 * @param idOwner the new idOwner of the pet.
+	 * @return a 200 OK response with a pet that has been modified. If the
+	 * identifier does not corresponds with any pet or the name, specie and idOwner are
 	 * not provided, a 400 Bad Request response with an error message will be
 	 * returned. If an error happens while retrieving the list, a 500 Internal
 	 * Server Error response with an error message will be returned.
